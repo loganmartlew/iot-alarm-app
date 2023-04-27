@@ -2,7 +2,9 @@
   "name": "iot-alarm-app",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "dev:client": "nx run client:serve"
+  },
   "private": true,
   "dependencies": {
     "react": "18.2.0",

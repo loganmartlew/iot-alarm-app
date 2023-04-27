@@ -1,7 +1,7 @@
 {
-  "name": "iot-alarm-app",
+  "name": "client",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/iot-alarm-app/src",
+  "sourceRoot": "apps/client/src",
   "projectType": "application",
   "targets": {
     "build": {
@@ -9,7 +9,7 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/apps/iot-alarm-app"
+        "outputPath": "dist/apps/client"
       },
       "configurations": {
         "development": {
@@ -24,15 +24,15 @@
       "executor": "@nrwl/vite:dev-server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "iot-alarm-app:build"
+        "buildTarget": "client:build"
       },
       "configurations": {
         "development": {
-          "buildTarget": "iot-alarm-app:build:development",
+          "buildTarget": "client:build:development",
           "hmr": true
         },
         "production": {
-          "buildTarget": "iot-alarm-app:build:production",
+          "buildTarget": "client:build:production",
           "hmr": false
         }
       }
@@ -41,36 +41,36 @@
       "executor": "@nrwl/vite:preview-server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "iot-alarm-app:build"
+        "buildTarget": "client:build"
       },
       "configurations": {
         "development": {
-          "buildTarget": "iot-alarm-app:build:development"
+          "buildTarget": "client:build:development"
         },
         "production": {
-          "buildTarget": "iot-alarm-app:build:production"
+          "buildTarget": "client:build:production"
         }
       }
     },
     "test": {
       "executor": "@nrwl/vite:test",
-      "outputs": ["coverage/apps/iot-alarm-app"],
+      "outputs": ["coverage/apps/client"],
       "options": {
         "passWithNoTests": true,
-        "reportsDirectory": "../../coverage/apps/iot-alarm-app"
+        "reportsDirectory": "../../coverage/apps/client"
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/iot-alarm-app/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["apps/client/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "serve-static": {
       "executor": "@nrwl/web:file-server",
       "options": {
-        "buildTarget": "iot-alarm-app:build"
+        "buildTarget": "client:build"
       }
     }
   },
