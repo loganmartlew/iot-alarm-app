@@ -14,7 +14,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@iot-alarm-app/api": ["libs/api/src/index.ts"],
+      "@iot-alarm-app/errors": ["libs/errors/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

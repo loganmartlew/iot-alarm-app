@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import wakeuptimeRouter from './wakeuptime';
+import wakeTimeRouter from './wakeTime.route';
 
 const router = Router();
 
-router.use('/wakeuptime', wakeuptimeRouter);
+router.use('/waketime', wakeTimeRouter);
 
 export default router;
