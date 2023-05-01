@@ -13,10 +13,12 @@
     "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "strict": true,
     "baseUrl": ".",
     "paths": {
       "@iot-alarm-app/api": ["libs/api/src/index.ts"],
-      "@iot-alarm-app/errors": ["libs/errors/src/index.ts"]
+      "@iot-alarm-app/errors": ["libs/errors/src/index.ts"],
+      "@iot-alarm-app/validation": ["libs/validation/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

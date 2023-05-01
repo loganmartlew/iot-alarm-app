@@ -1,4 +1,5 @@
 import { ApiError } from '@iot-alarm-app/errors';
+import { WakeTime, WeekDay } from '@prisma/client';
 import { Request, Response } from 'express';
 
 export type ApiResponse<T> =
@@ -23,4 +24,8 @@ export type ExtractControllerData<T> = T extends Controller<infer U>
   ? U
   : never;
 
-export type GetWakeTimes = Controller<string>;
+export type GetWakeTimes = Controller<
+  (WakeTime & {
+    days: WeekDay[];
+  })[]
+>;
