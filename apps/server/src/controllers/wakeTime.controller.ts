@@ -1,8 +1,9 @@
-import { CreateWakeTime, GetWakeTimes } from '@iot-alarm-app/api';
+import { CreateWakeTime, GetWakeTimes, WakeTimeDTO } from '@iot-alarm-app/api';
 import WakeTimeService from '../services/wakeTime.service';
 import { StatusCodes } from 'http-status-codes';
+import { wakeTimeDataSchema } from '@iot-alarm-app/validation';
 
-export const getWakeTimes: GetWakeTimes = async (req, res) => {
+export const getWakeTimes: GetWakeTimes = async () => {
   const wakeTimes = await WakeTimeService.getAll();
 
   return {
@@ -12,8 +13,10 @@ export const getWakeTimes: GetWakeTimes = async (req, res) => {
   };
 };
 
-export const createWakeTime: CreateWakeTime = async (req, res) => {
-  const newWakeTime = await WakeTimeService.create(req.body);
+export const createWakeTime: CreateWakeTime = async (req) => {
+  const wakeTimeDto: WakeTimeDTO = wakeTimeDataSchema.parse(req.body);
+
+  const newWakeTime = await WakeTimeService.create(wakeTimeDto);
 
   return {
     status: StatusCodes.CREATED,

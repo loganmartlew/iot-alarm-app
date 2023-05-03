@@ -1,7 +1,7 @@
 import { ApiError } from '@iot-alarm-app/errors';
 import db from '../db';
 
-type WeekDaySystemName =
+export type WeekDaySystemName =
   | 'monday'
   | 'tuesday'
   | 'wednesday'

@@ -26,3 +26,13 @@ model WeekDay {
   systemName String @unique
   wakeTimes  WakeTime[]
 }
+
+model SleepSchedule {
+  id              String @id @default(uuid())
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  sleepTime       DateTime
+  wakeTime        DateTime
+  optimalWakeTime DateTime
+  completed       Boolean @default(false)
+}
