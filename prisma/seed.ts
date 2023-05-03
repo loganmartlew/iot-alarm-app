@@ -17,6 +17,7 @@ async function main() {
     await prisma.weekDay.create({
       data: {
         name: day,
+        systemName: day.toLowerCase(),
       },
     });
   }

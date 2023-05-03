@@ -29,3 +29,4 @@ export type GetWakeTimes = Controller<
     days: WeekDay[];
   })[]
 >;
+export type CreateWakeTime = Controller<WakeTime>;

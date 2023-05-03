@@ -23,5 +23,6 @@ model WeekDay {
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
   name       String
+  systemName String @unique
   wakeTimes  WakeTime[]
 }

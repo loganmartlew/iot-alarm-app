@@ -1,5 +1,7 @@
 import { WakeTimeDTO } from '@iot-alarm-app/api';
+import dayjs from 'dayjs';
 import db from '../db';
+import WeekDayService from './weekDay.service';
 
 export default class WakeTimeService {
   static async getAll() {
@@ -12,9 +14,21 @@ export default class WakeTimeService {
   }
 
   static async create(wakeTimeData: WakeTimeDTO) {
+    const weekDays = await Promise.all(
+      wakeTimeData.days.map((day) => {
+        return WeekDayService.getWeekDay(day);
+      })
+    );
+
     const newWakeTime = await db.wakeTime.create({
-      data: wakeTimeData,
+      data: {
+        time: dayjs(wakeTimeData.time).toDate(),
+        days: {
+          connect: weekDays.map((day) => ({ id: day.id })),
+        },
+      },
     });
+
     return newWakeTime;
   }
 }
