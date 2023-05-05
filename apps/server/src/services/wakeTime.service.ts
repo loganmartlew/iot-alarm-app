@@ -22,7 +22,7 @@ export default class WakeTimeService {
 
     const newWakeTime = await db.wakeTime.create({
       data: {
-        time: dayjs(wakeTimeData.time).toDate(),
+        time: dayjs.utc(wakeTimeData.time).toDate(),
         days: {
           connect: weekDays.map((day) => ({ id: day.id })),
         },

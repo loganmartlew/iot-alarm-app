@@ -5,6 +5,12 @@ import { json, urlencoded } from 'body-parser';
 import cors from 'cors';
 import routes from '../routes';
 import { Logger } from './logger';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(customParseFormat);
+dayjs.extend(utc);
 
 export default (app: Express) => {
   app.use((req, res, next) => {

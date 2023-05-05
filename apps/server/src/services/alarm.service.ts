@@ -28,10 +28,8 @@ export const weekDayNumbers = {
 
 export default class AlarmService {
   static async setAlarm(alarmSetDto: AlarmSetDTO): Promise<SleepSchedule> {
-    const alarmSetTime = dayjs(alarmSetDto.timeTriggered);
+    const alarmSetTime = dayjs.utc(alarmSetDto.timeTriggered);
     const sleepTime = alarmSetTime.add(10, 'minutes');
-
-    const sleepTimeDay = sleepTime.get('day');
 
     const wakeTimes = await WakeTimeService.getAll();
 
@@ -44,18 +42,16 @@ export default class AlarmService {
     const { wakeTimeFound, weekday } = findNextWakeTime(
       wakeTimes,
       sortedAlarms,
-      sleepTimeDay
+      sleepTime
     );
 
-    const weekDayDayjs = weekday === 6 ? 0 : weekday + 1;
-
     const wakeUpTime = sleepTime
-      .day(weekDayDayjs)
-      .hour(dayjs(wakeTimeFound.time).hour())
-      .minute(dayjs(wakeTimeFound.time).minute());
+      .day(weekday)
+      .hour(dayjs.utc(wakeTimeFound.time).hour())
+      .minute(dayjs.utc(wakeTimeFound.time).minute());
 
     const adjustedWakeUpTime =
-      weekDayDayjs < sleepTime.day() ? wakeUpTime.add(1, 'week') : wakeUpTime;
+      weekday < sleepTime.day() ? wakeUpTime.add(1, 'week') : wakeUpTime;
 
     const optimalWakeTime = calculateWakeupTime(sleepTime, adjustedWakeUpTime);
 

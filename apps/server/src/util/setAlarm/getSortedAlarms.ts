@@ -18,16 +18,21 @@ export const getSortedAlarms = (
   }, [] as Alarm[]);
 
   const sortedAlarms = alarms.sort((a, b) => {
-    const aDate = dayjs(a.time)
+    const aDate = dayjs
+      .utc(a.time)
       .set('year', 2020)
       .set('month', 1)
       .set('date', 1)
-      .set('day', weekDayNumbers[a.day].dayjs);
-    const bDate = dayjs(b.time)
+      .set('day', weekDayNumbers[a.day].dayjs)
+      .add(weekDayNumbers[a.day].dayjs === 0 ? 7 : 0, 'day');
+
+    const bDate = dayjs
+      .utc(b.time)
       .set('year', 2020)
       .set('month', 1)
       .set('date', 1)
-      .set('day', weekDayNumbers[b.day].dayjs);
+      .set('day', weekDayNumbers[b.day].dayjs)
+      .add(weekDayNumbers[b.day].dayjs === 0 ? 7 : 0, 'day');
 
     if (aDate.isBefore(bDate)) return -1;
     if (aDate.isAfter(bDate)) return 1;

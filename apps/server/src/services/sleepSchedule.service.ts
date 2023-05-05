@@ -6,9 +6,9 @@ export default class SleepScheduleService {
   static async createSleepSchedule(sleepScheduleDto: SleepScheduleDTO) {
     const sleepSchedule = await db.sleepSchedule.create({
       data: {
-        sleepTime: dayjs(sleepScheduleDto.sleepTime).toDate(),
-        wakeTime: dayjs(sleepScheduleDto.wakeTime).toDate(),
-        optimalWakeTime: dayjs(sleepScheduleDto.optimalWakeTime).toDate(),
+        sleepTime: dayjs.utc(sleepScheduleDto.sleepTime).toDate(),
+        wakeTime: dayjs.utc(sleepScheduleDto.wakeTime).toDate(),
+        optimalWakeTime: dayjs.utc(sleepScheduleDto.optimalWakeTime).toDate(),
       },
     });
 
