@@ -1,5 +1,4 @@
 import { WakeTimeDTO } from '@iot-alarm-app/api';
-import dayjs from 'dayjs';
 import db from '../db';
 import WeekDayService from './weekDay.service';
 
@@ -22,7 +21,7 @@ export default class WakeTimeService {
 
     const newWakeTime = await db.wakeTime.create({
       data: {
-        time: dayjs.utc(wakeTimeData.time).toDate(),
+        time: wakeTimeData.time,
         days: {
           connect: weekDays.map((day) => ({ id: day.id })),
         },

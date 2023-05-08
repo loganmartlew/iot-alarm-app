@@ -3,6 +3,7 @@ import utc from 'dayjs/plugin/utc';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { WakeTime, WeekDay } from '@prisma/client';
 import { getSortedAlarms } from './getSortedAlarms';
+import { timeToDayjs } from '@iot-alarm-app/dates';
 
 dayjs.extend(utc);
 dayjs.extend(customParseFormat);
@@ -22,7 +23,7 @@ const wakeTimes: (WakeTime & {
 })[] = [
   {
     id: '1',
-    time: dayjs.utc('2021-08-04T07:00:00.000Z').toDate(),
+    time: '2021-08-04 07:00:00',
     days: [
       generateWeekDay('monday'),
       generateWeekDay('wednesday'),
@@ -33,7 +34,7 @@ const wakeTimes: (WakeTime & {
   },
   {
     id: '2',
-    time: new Date('2021-08-04T06:00:00.000Z'),
+    time: '2021-08-04T06:00:00',
     days: [
       generateWeekDay('tuesday'),
       generateWeekDay('wednesday'),
@@ -44,7 +45,7 @@ const wakeTimes: (WakeTime & {
   },
   {
     id: '3',
-    time: new Date('2021-08-04T10:00:00.000Z'),
+    time: '2021-08-04T10:00:00',
     days: [generateWeekDay('saturday'), generateWeekDay('sunday')],
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -68,7 +69,9 @@ describe('test getSortedAlarms', () => {
     const sortedAlarms = getSortedAlarms(wakeTimes);
 
     expect(
-      dayjs.utc(sortedAlarms[2].time).isBefore(dayjs.utc(sortedAlarms[3].time))
+      timeToDayjs(sortedAlarms[2].time).isBefore(
+        timeToDayjs(sortedAlarms[3].time)
+      )
     ).toBe(true);
   });
 });

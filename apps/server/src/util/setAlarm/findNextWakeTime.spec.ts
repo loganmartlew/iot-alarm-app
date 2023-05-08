@@ -4,6 +4,7 @@ import utc from 'dayjs/plugin/utc';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { Alarm } from '../../services/alarm.service';
 import { findNextWakeTime } from './findNextWakeTime';
+import { timeToDayjs, dateTimeToDayjs } from '@iot-alarm-app/dates';
 
 dayjs.extend(utc);
 dayjs.extend(customParseFormat);
@@ -21,29 +22,29 @@ const generateWeekDay = (weekDay: string) => {
 const sortedAlarms: Alarm[] = [
   {
     day: 'monday',
-    time: dayjs.utc('2021-08-04T07:00:00.000').toDate(),
+    time: '07:00:00',
     wakeTimeId: '1',
   },
   {
     day: 'wednesday',
-    time: dayjs.utc('2021-08-04T07:00:00.000').toDate(),
+    time: '07:00:00',
     wakeTimeId: '1',
   },
   {
     day: 'friday',
-    time: dayjs.utc('2021-08-04T07:00:00.000').toDate(),
+    time: '07:00:00',
     wakeTimeId: '1',
   },
 ];
 
-const sleepTime = dayjs.utc('2021-08-04T23:00:00.000');
+const sleepTime = '2021-08-04 23:00:00';
 
 const wakeTimes: (WakeTime & {
   days: WeekDay[];
 })[] = [
   {
     id: '1',
-    time: new Date('2021-08-04T07:00:00.000Z'),
+    time: '2021-08-04 07:00:00',
     days: [
       generateWeekDay('monday'),
       generateWeekDay('wednesday'),
@@ -59,18 +60,21 @@ describe('test findNextWakeTime', () => {
     const { wakeTimeFound, weekday } = findNextWakeTime(
       wakeTimes,
       sortedAlarms,
-      sleepTime.day(4)
+      dateTimeToDayjs(sleepTime).day(4)
     );
+
     expect(weekday).toBe(5);
-    expect(dayjs.utc(wakeTimeFound?.time).hour()).toBe(7);
+    expect(timeToDayjs(wakeTimeFound?.time).hour()).toBe(7);
   });
+
   it('should find monday', () => {
     const { wakeTimeFound, weekday } = findNextWakeTime(
       wakeTimes,
       sortedAlarms,
-      sleepTime.day(5)
+      dateTimeToDayjs(sleepTime).day(5)
     );
+
     expect(weekday).toBe(1);
-    expect(dayjs.utc(wakeTimeFound?.time).hour()).toBe(7);
+    expect(timeToDayjs(wakeTimeFound?.time).hour()).toBe(7);
   });
 });

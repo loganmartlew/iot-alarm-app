@@ -2,17 +2,17 @@ import { AlarmSetDTO, SleepScheduleDTO } from '@iot-alarm-app/api';
 import { ApiError } from '@iot-alarm-app/errors';
 import { sleepScheduleDataSchema } from '@iot-alarm-app/validation';
 import { SleepSchedule } from '@prisma/client';
-import dayjs from 'dayjs';
 import { calculateWakeupTime } from '../util/setAlarm/calculateWakeupTime';
 import { findNextWakeTime } from '../util/setAlarm/findNextWakeTime';
 import { getSortedAlarms } from '../util/setAlarm/getSortedAlarms';
 import SleepScheduleService from './sleepSchedule.service';
 import WakeTimeService from './wakeTime.service';
 import { WeekDaySystemName } from './weekDay.service';
+import { timeToDayjs } from '@iot-alarm-app/dates';
 
 export interface Alarm {
   day: WeekDaySystemName;
-  time: Date;
+  time: string;
   wakeTimeId: string;
 }
 
@@ -28,7 +28,7 @@ export const weekDayNumbers = {
 
 export default class AlarmService {
   static async setAlarm(alarmSetDto: AlarmSetDTO): Promise<SleepSchedule> {
-    const alarmSetTime = dayjs.utc(alarmSetDto.timeTriggered);
+    const alarmSetTime = timeToDayjs(alarmSetDto.timeTriggered);
     const sleepTime = alarmSetTime.add(10, 'minutes');
 
     const wakeTimes = await WakeTimeService.getAll();
@@ -47,8 +47,8 @@ export default class AlarmService {
 
     const wakeUpTime = sleepTime
       .day(weekday)
-      .hour(dayjs.utc(wakeTimeFound.time).hour())
-      .minute(dayjs.utc(wakeTimeFound.time).minute());
+      .hour(timeToDayjs(wakeTimeFound.time).hour())
+      .minute(timeToDayjs(wakeTimeFound.time).minute());
 
     const adjustedWakeUpTime =
       weekday < sleepTime.day() ? wakeUpTime.add(1, 'week') : wakeUpTime;

@@ -1,7 +1,7 @@
 import { WakeTime, WeekDay } from '@prisma/client';
-import dayjs from 'dayjs';
 import { Alarm, weekDayNumbers } from '../../services/alarm.service';
 import { WeekDaySystemName } from '../../services/weekDay.service';
+import { timeToDayjs } from '@iot-alarm-app/dates';
 
 export const getSortedAlarms = (
   wakeTimes: (WakeTime & {
@@ -18,16 +18,14 @@ export const getSortedAlarms = (
   }, [] as Alarm[]);
 
   const sortedAlarms = alarms.sort((a, b) => {
-    const aDate = dayjs
-      .utc(a.time)
+    const aDate = timeToDayjs(a.time)
       .set('year', 2020)
       .set('month', 1)
       .set('date', 1)
       .set('day', weekDayNumbers[a.day].dayjs)
       .add(weekDayNumbers[a.day].dayjs === 0 ? 7 : 0, 'day');
 
-    const bDate = dayjs
-      .utc(b.time)
+    const bDate = timeToDayjs(b.time)
       .set('year', 2020)
       .set('month', 1)
       .set('date', 1)
