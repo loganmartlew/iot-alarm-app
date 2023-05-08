@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 export const wakeTimeDataSchema = z.object({
   time: z.string().refine((val) => {
-    timeToDayjs(val).isValid();
+    return timeToDayjs(val).isValid();
   }, 'String is not a valid date'),
   days: z.array(
     z.enum([
@@ -20,20 +20,20 @@ export const wakeTimeDataSchema = z.object({
 
 export const alarmSetSchema = z.object({
   timeTriggered: z.string().refine((val) => {
-    dateTimeToDayjs(val).isValid();
+    return dateTimeToDayjs(val).isValid();
   }, 'String is not a valid date'),
 });
 
 export const sleepScheduleDataSchema = z
   .object({
     sleepTime: z.string().refine((val) => {
-      dateTimeToDayjs(val).isValid();
+      return dateTimeToDayjs(val).isValid();
     }, 'String is not a valid date'),
     wakeTime: z.string().refine((val) => {
-      dateTimeToDayjs(val).isValid();
+      return dateTimeToDayjs(val).isValid();
     }, 'String is not a valid date'),
     optimalWakeTime: z.string().refine((val) => {
-      dateTimeToDayjs(val).isValid();
+      return dateTimeToDayjs(val).isValid();
     }, 'String is not a valid date'),
   })
   .refine((schema) => {

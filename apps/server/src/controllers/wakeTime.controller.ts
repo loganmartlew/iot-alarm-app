@@ -1,4 +1,9 @@
-import { CreateWakeTime, GetWakeTimes, WakeTimeDTO } from '@iot-alarm-app/api';
+import {
+  CreateWakeTime,
+  GetWakeTime,
+  GetWakeTimes,
+  WakeTimeDTO,
+} from '@iot-alarm-app/api';
 import WakeTimeService from '../services/wakeTime.service';
 import { StatusCodes } from 'http-status-codes';
 import { wakeTimeDataSchema } from '@iot-alarm-app/validation';
@@ -10,6 +15,18 @@ export const getWakeTimes: GetWakeTimes = async () => {
     status: StatusCodes.OK,
     message: 'Get all wake times',
     data: wakeTimes,
+  };
+};
+
+export const getWakeTime: GetWakeTime = async (req) => {
+  const wakeTimeId = req.params.id;
+
+  const wakeTime = await WakeTimeService.getOne(wakeTimeId);
+
+  return {
+    status: StatusCodes.OK,
+    message: 'Get wake time',
+    data: wakeTime,
   };
 };
 
