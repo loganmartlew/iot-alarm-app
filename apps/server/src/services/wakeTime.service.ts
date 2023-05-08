@@ -49,4 +49,44 @@ export default class WakeTimeService {
 
     return newWakeTime;
   }
+
+  static async update(id: string, wakeTimeData: WakeTimeDTO) {
+    const weekDays = await Promise.all(
+      wakeTimeData.days.map((day) => {
+        return WeekDayService.getWeekDay(day);
+      })
+    );
+
+    // Remove existing day relations
+    const existingWakeTime = await db.wakeTime.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        days: true,
+      },
+    });
+
+    const updatedWakeTime = await db.wakeTime.update({
+      where: {
+        id,
+      },
+      include: {
+        days: true,
+      },
+      data: {
+        time: wakeTimeData.time,
+        days: {
+          disconnect: existingWakeTime?.days.map((day) => ({ id: day.id })),
+          connect: weekDays.map((day) => ({ id: day.id })),
+        },
+      },
+    });
+
+    if (!updatedWakeTime) {
+      throw new ApiError(null, 3002, `Wake time not found`);
+    }
+
+    return updatedWakeTime;
+  }
 }

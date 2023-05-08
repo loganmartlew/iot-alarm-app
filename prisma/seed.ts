@@ -13,6 +13,8 @@ async function main() {
     'Sunday',
   ];
 
+  await prisma.weekDay.deleteMany({});
+
   for (const day of days) {
     await prisma.weekDay.create({
       data: {

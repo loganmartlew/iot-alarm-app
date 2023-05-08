@@ -35,5 +35,6 @@ export type GetWakeTime = Controller<
   }
 >;
 export type CreateWakeTime = Controller<WakeTime>;
+export type UpdateWakeTime = Controller<WakeTime>;
 
 export type SetAlarm = Controller<SleepSchedule>;
