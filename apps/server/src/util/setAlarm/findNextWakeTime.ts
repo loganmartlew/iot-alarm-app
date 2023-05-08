@@ -1,7 +1,7 @@
 import { timeToDayjs } from '@iot-alarm-app/dates';
 import { ApiError } from '@iot-alarm-app/errors';
 import { WakeTime, WeekDay } from '@prisma/client';
-import dayjs, { Dayjs } from 'dayjs';
+import { Dayjs } from 'dayjs';
 import { Alarm, weekDayNumbers } from '../../services/alarm.service';
 
 export const findNextWakeTime = (
