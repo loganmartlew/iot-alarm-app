@@ -1,3 +1,4 @@
+import { timeToDayjs } from '@iot-alarm-app/dates';
 import { ApiError } from '@iot-alarm-app/errors';
 import { WakeTime, WeekDay } from '@prisma/client';
 import dayjs, { Dayjs } from 'dayjs';
@@ -30,8 +31,11 @@ export const findNextWakeTime = (
         (wakeTime) => wakeTime.id === filteredAlarms[0].wakeTimeId
       ) ?? null;
 
-    const wakeTimeNormalised = dayjs
-      .utc(wakeTime?.time)
+    if (!wakeTime) {
+      throw new ApiError(null, 3002, 'No wake up time found');
+    }
+
+    const wakeTimeNormalised = timeToDayjs(wakeTime.time)
       .year(2020)
       .month(1)
       .date(1);

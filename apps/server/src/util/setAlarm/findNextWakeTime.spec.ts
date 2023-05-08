@@ -44,7 +44,7 @@ const wakeTimes: (WakeTime & {
 })[] = [
   {
     id: '1',
-    time: '2021-08-04 07:00:00',
+    time: '07:00:00',
     days: [
       generateWeekDay('monday'),
       generateWeekDay('wednesday'),

@@ -23,7 +23,7 @@ const wakeTimes: (WakeTime & {
 })[] = [
   {
     id: '1',
-    time: '2021-08-04 07:00:00',
+    time: '07:00:00',
     days: [
       generateWeekDay('monday'),
       generateWeekDay('wednesday'),
@@ -34,7 +34,7 @@ const wakeTimes: (WakeTime & {
   },
   {
     id: '2',
-    time: '2021-08-04T06:00:00',
+    time: '06:00:00',
     days: [
       generateWeekDay('tuesday'),
       generateWeekDay('wednesday'),
@@ -45,7 +45,7 @@ const wakeTimes: (WakeTime & {
   },
   {
     id: '3',
-    time: '2021-08-04T10:00:00',
+    time: '10:00:00',
     days: [generateWeekDay('saturday'), generateWeekDay('sunday')],
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -72,6 +72,6 @@ describe('test getSortedAlarms', () => {
       timeToDayjs(sortedAlarms[2].time).isBefore(
         timeToDayjs(sortedAlarms[3].time)
       )
-    ).toBe(true);
+    ).toBeTruthy();
   });
 });
