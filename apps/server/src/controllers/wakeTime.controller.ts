@@ -1,5 +1,6 @@
 import {
   CreateWakeTime,
+  DeleteWakeTime,
   GetWakeTime,
   GetWakeTimes,
   UpdateWakeTime,
@@ -53,5 +54,17 @@ export const updateWakeTime: UpdateWakeTime = async (req) => {
     status: StatusCodes.OK,
     message: 'Update wake time',
     data: updatedWakeTime,
+  };
+};
+
+export const deleteWakeTime: DeleteWakeTime = async (req) => {
+  const wakeTimeId = req.params.id;
+
+  const deletedWakeTime = await WakeTimeService.delete(wakeTimeId);
+
+  return {
+    status: StatusCodes.OK,
+    message: 'Delete wake time',
+    data: deletedWakeTime,
   };
 };

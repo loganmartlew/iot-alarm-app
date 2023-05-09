@@ -39,6 +39,9 @@ export default class WakeTimeService {
     );
 
     const newWakeTime = await db.wakeTime.create({
+      include: {
+        days: true,
+      },
       data: {
         time: wakeTimeData.time,
         days: {
@@ -57,7 +60,6 @@ export default class WakeTimeService {
       })
     );
 
-    // Remove existing day relations
     const existingWakeTime = await db.wakeTime.findUnique({
       where: {
         id,
@@ -88,5 +90,19 @@ export default class WakeTimeService {
     }
 
     return updatedWakeTime;
+  }
+
+  static async delete(id: string) {
+    const deletedWakeTime = await db.wakeTime.delete({
+      where: {
+        id,
+      },
+    });
+
+    if (!deletedWakeTime) {
+      throw new ApiError(null, 3002, `Wake time not found`);
+    }
+
+    return deletedWakeTime;
   }
 }
