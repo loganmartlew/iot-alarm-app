@@ -1,4 +1,5 @@
 import { WakeTimeDTO } from '@iot-alarm-app/api';
+import { ApiError } from '@iot-alarm-app/errors';
 import db from '../db';
 import WeekDayService from './weekDay.service';
 
@@ -9,7 +10,25 @@ export default class WakeTimeService {
         days: true,
       },
     });
+
     return wakeTimes;
+  }
+
+  static async getOne(id: string) {
+    const wakeTime = await db.wakeTime.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        days: true,
+      },
+    });
+
+    if (!wakeTime) {
+      throw new ApiError(null, 3002, `Wake time not found`);
+    }
+
+    return wakeTime;
   }
 
   static async create(wakeTimeData: WakeTimeDTO) {
@@ -20,6 +39,9 @@ export default class WakeTimeService {
     );
 
     const newWakeTime = await db.wakeTime.create({
+      include: {
+        days: true,
+      },
       data: {
         time: wakeTimeData.time,
         days: {
@@ -29,5 +51,58 @@ export default class WakeTimeService {
     });
 
     return newWakeTime;
+  }
+
+  static async update(id: string, wakeTimeData: WakeTimeDTO) {
+    const weekDays = await Promise.all(
+      wakeTimeData.days.map((day) => {
+        return WeekDayService.getWeekDay(day);
+      })
+    );
+
+    const existingWakeTime = await db.wakeTime.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        days: true,
+      },
+    });
+
+    const updatedWakeTime = await db.wakeTime.update({
+      where: {
+        id,
+      },
+      include: {
+        days: true,
+      },
+      data: {
+        time: wakeTimeData.time,
+        days: {
+          disconnect: existingWakeTime?.days.map((day) => ({ id: day.id })),
+          connect: weekDays.map((day) => ({ id: day.id })),
+        },
+      },
+    });
+
+    if (!updatedWakeTime) {
+      throw new ApiError(null, 3002, `Wake time not found`);
+    }
+
+    return updatedWakeTime;
+  }
+
+  static async delete(id: string) {
+    const deletedWakeTime = await db.wakeTime.delete({
+      where: {
+        id,
+      },
+    });
+
+    if (!deletedWakeTime) {
+      throw new ApiError(null, 3002, `Wake time not found`);
+    }
+
+    return deletedWakeTime;
   }
 }

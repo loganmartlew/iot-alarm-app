@@ -1,4 +1,11 @@
-import { CreateWakeTime, GetWakeTimes, WakeTimeDTO } from '@iot-alarm-app/api';
+import {
+  CreateWakeTime,
+  DeleteWakeTime,
+  GetWakeTime,
+  GetWakeTimes,
+  UpdateWakeTime,
+  WakeTimeDTO,
+} from '@iot-alarm-app/api';
 import WakeTimeService from '../services/wakeTime.service';
 import { StatusCodes } from 'http-status-codes';
 import { wakeTimeDataSchema } from '@iot-alarm-app/validation';
@@ -13,6 +20,18 @@ export const getWakeTimes: GetWakeTimes = async () => {
   };
 };
 
+export const getWakeTime: GetWakeTime = async (req) => {
+  const wakeTimeId = req.params.id;
+
+  const wakeTime = await WakeTimeService.getOne(wakeTimeId);
+
+  return {
+    status: StatusCodes.OK,
+    message: 'Get wake time',
+    data: wakeTime,
+  };
+};
+
 export const createWakeTime: CreateWakeTime = async (req) => {
   const wakeTimeDto: WakeTimeDTO = wakeTimeDataSchema.parse(req.body);
 
@@ -22,5 +41,30 @@ export const createWakeTime: CreateWakeTime = async (req) => {
     status: StatusCodes.CREATED,
     message: 'Create wake time',
     data: newWakeTime,
+  };
+};
+
+export const updateWakeTime: UpdateWakeTime = async (req) => {
+  const wakeTimeId = req.params.id;
+  const wakeTimeDto: WakeTimeDTO = wakeTimeDataSchema.parse(req.body);
+
+  const updatedWakeTime = await WakeTimeService.update(wakeTimeId, wakeTimeDto);
+
+  return {
+    status: StatusCodes.OK,
+    message: 'Update wake time',
+    data: updatedWakeTime,
+  };
+};
+
+export const deleteWakeTime: DeleteWakeTime = async (req) => {
+  const wakeTimeId = req.params.id;
+
+  const deletedWakeTime = await WakeTimeService.delete(wakeTimeId);
+
+  return {
+    status: StatusCodes.OK,
+    message: 'Delete wake time',
+    data: deletedWakeTime,
   };
 };

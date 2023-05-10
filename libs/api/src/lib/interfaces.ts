@@ -29,6 +29,21 @@ export type GetWakeTimes = Controller<
     days: WeekDay[];
   })[]
 >;
-export type CreateWakeTime = Controller<WakeTime>;
+export type GetWakeTime = Controller<
+  WakeTime & {
+    days: WeekDay[];
+  }
+>;
+export type CreateWakeTime = Controller<
+  WakeTime & {
+    days: WeekDay[];
+  }
+>;
+export type UpdateWakeTime = Controller<
+  WakeTime & {
+    days: WeekDay[];
+  }
+>;
+export type DeleteWakeTime = Controller<WakeTime>;
 
 export type SetAlarm = Controller<SleepSchedule>;
