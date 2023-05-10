@@ -1,4 +1,4 @@
-import { Stack, Title } from '@mantine/core';
+import { Stack, Title, Group } from '@mantine/core';
 import { FC, ReactNode } from 'react';
 import DataHandler from './DataHandler';
 
@@ -10,9 +10,10 @@ interface Props {
     error: unknown;
     isLoading: boolean;
   };
+  rightSection?: ReactNode;
 }
 
-const PageWrapper: FC<Props> = ({ children, title, data }) => {
+const PageWrapper: FC<Props> = ({ children, title, data, rightSection }) => {
   const returnValue = data ? (
     <DataHandler {...data}>{children}</DataHandler>
   ) : (
@@ -30,7 +31,10 @@ const PageWrapper: FC<Props> = ({ children, title, data }) => {
             : theme.colors.gray[8],
       })}
     >
-      <Title order={1}>{title}</Title>
+      <Group spacing="xs" align="center">
+        <Title order={1}>{title}</Title>
+        {rightSection}
+      </Group>
       {returnValue}
     </Stack>
   );

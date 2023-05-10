@@ -41,7 +41,7 @@ const AlarmCard: FC<Props> = ({ alarm, weekDays }) => {
             ))}
           </Group>
         </Group>
-        <Group>
+        <Group spacing="xs">
           <ActionIcon
             radius="xl"
             size="lg"

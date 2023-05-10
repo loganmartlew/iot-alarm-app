@@ -1,4 +1,9 @@
-import dayjs = require('dayjs');
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(customParseFormat);
+dayjs.extend(utc);
 
 export const formats = {
   date: 'YYYY-MM-DD',
