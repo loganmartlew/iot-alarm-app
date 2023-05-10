@@ -1,33 +1,64 @@
 import { WakeTimeAlarm } from '@iot-alarm-app/types';
 import { FC } from 'react';
-import { Paper, Text, Group } from '@mantine/core';
+import { Paper, Text, Group, ActionIcon } from '@mantine/core';
+import { WeekDay } from '@prisma/client';
+import WeekDayBadge from '../weekday/WeekDayBadge';
+import { MdDelete, MdEdit } from 'react-icons/md';
 
 interface Props {
   alarm: WakeTimeAlarm;
+  weekDays: WeekDay[];
 }
 
-const AlarmCard: FC<Props> = ({ alarm }) => {
+const AlarmCard: FC<Props> = ({ alarm, weekDays }) => {
   return (
     <Paper p="md" radius="lg" withBorder>
-      <Group>
-        <Text
-          fz="1.7rem"
-          fw="bolder"
-          sx={(theme) => ({
-            color:
-              theme.colorScheme === 'dark'
-                ? theme.colors.dark[0]
-                : theme.colors.gray[7],
-          })}
-        >
-          {alarm.time}
-        </Text>
+      <Group sx={{ justifyContent: 'space-between' }}>
         <Group>
-          {alarm.days.length <= 0 && <Text>Not scheduled</Text>}
-          {alarm.days.length > 0 &&
-            alarm.days.map((day) => (
-              <Text key={day.systemName}>{day.name.slice(0, 3)}</Text>
+          <Text
+            fz="1.7rem"
+            fw="bolder"
+            sx={(theme) => ({
+              color:
+                theme.colorScheme === 'dark'
+                  ? theme.colors.dark[0]
+                  : theme.colors.gray[7],
+            })}
+          >
+            {alarm.time}
+          </Text>
+          <Group spacing="0.3em">
+            {weekDays.map((day) => (
+              <WeekDayBadge
+                key={day.id}
+                weekDay={day}
+                active={
+                  !!alarm.days.find(
+                    (alarmDay) => alarmDay.systemName === day.systemName
+                  )
+                }
+              />
             ))}
+          </Group>
+        </Group>
+        <Group>
+          <ActionIcon
+            radius="xl"
+            size="lg"
+            color="blue"
+            sx={(theme) => ({
+              color: theme.colors.gray[6],
+              transition: 'color 50ms ease',
+              '&:hover': {
+                color: theme.colors[theme.primaryColor][6],
+              },
+            })}
+          >
+            <MdEdit size="1.5rem" />
+          </ActionIcon>
+          <ActionIcon color="red" radius="xl" size="lg">
+            <MdDelete size="1.5rem" />
+          </ActionIcon>
         </Group>
       </Group>
     </Paper>
