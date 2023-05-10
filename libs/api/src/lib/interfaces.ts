@@ -1,5 +1,6 @@
 import { ApiError } from '@iot-alarm-app/errors';
-import { SleepSchedule, WakeTime, WeekDay } from '@prisma/client';
+import { WakeTimeAlarm } from '@iot-alarm-app/types';
+import { SleepSchedule, WakeTime } from '@prisma/client';
 import { Request, Response } from 'express';
 
 export type ApiResponse<T> =
@@ -24,26 +25,10 @@ export type ExtractControllerData<T> = T extends Controller<infer U>
   ? U
   : never;
 
-export type GetWakeTimes = Controller<
-  (WakeTime & {
-    days: WeekDay[];
-  })[]
->;
-export type GetWakeTime = Controller<
-  WakeTime & {
-    days: WeekDay[];
-  }
->;
-export type CreateWakeTime = Controller<
-  WakeTime & {
-    days: WeekDay[];
-  }
->;
-export type UpdateWakeTime = Controller<
-  WakeTime & {
-    days: WeekDay[];
-  }
->;
+export type GetWakeTimes = Controller<WakeTimeAlarm[]>;
+export type GetWakeTime = Controller<WakeTimeAlarm>;
+export type CreateWakeTime = Controller<WakeTimeAlarm>;
+export type UpdateWakeTime = Controller<WakeTimeAlarm>;
 export type DeleteWakeTime = Controller<WakeTime>;
 
 export type SetAlarm = Controller<SleepSchedule>;

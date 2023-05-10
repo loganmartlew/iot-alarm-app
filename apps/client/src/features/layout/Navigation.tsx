@@ -10,7 +10,11 @@ const links = [
   { label: 'Settings', path: '/settings', icon: <MdSettings /> },
 ];
 
-const Navigation: FC = () => {
+interface Props {
+  opened: boolean;
+}
+
+const Navigation: FC<Props> = ({ opened }) => {
   const { pathname } = useLocation();
 
   const getNavLinkProps = useCallback(
@@ -23,7 +27,7 @@ const Navigation: FC = () => {
   );
 
   return (
-    <Navbar width={{ sm: 200, lg: 300 }}>
+    <Navbar width={{ sm: 200, lg: 300 }} hiddenBreakpoint="sm" hidden={!opened}>
       {links.map((link, i) => (
         <NavLink
           key={i}

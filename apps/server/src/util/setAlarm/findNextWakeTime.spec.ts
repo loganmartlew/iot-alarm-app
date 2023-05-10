@@ -5,6 +5,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { Alarm } from '../../services/alarm.service';
 import { findNextWakeTime } from './findNextWakeTime';
 import { timeToDayjs, dateTimeToDayjs } from '@iot-alarm-app/dates';
+import { WakeTimeAlarm } from '@iot-alarm-app/types';
 
 dayjs.extend(utc);
 dayjs.extend(customParseFormat);
@@ -39,9 +40,7 @@ const sortedAlarms: Alarm[] = [
 
 const sleepTime = '2021-08-04 23:00:00';
 
-const wakeTimes: (WakeTime & {
-  days: WeekDay[];
-})[] = [
+const wakeTimes: WakeTimeAlarm[] = [
   {
     id: '1',
     time: '07:00:00',

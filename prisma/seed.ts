@@ -20,6 +20,7 @@ async function main() {
       data: {
         name: day,
         systemName: day.toLowerCase(),
+        sequence: days.indexOf(day) + 1,
       },
     });
   }

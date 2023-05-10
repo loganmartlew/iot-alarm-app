@@ -24,6 +24,7 @@ model WeekDay {
   updatedAt  DateTime   @updatedAt
   name       String
   systemName String @unique
+  sequence   Int @default(0)
   wakeTimes  WakeTime[]
 }
 

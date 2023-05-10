@@ -1,17 +1,45 @@
 import { FC } from 'react';
-import { Group, Title, Header, Avatar, Text } from '@mantine/core';
+import {
+  Group,
+  Title,
+  Header,
+  Avatar,
+  Text,
+  MediaQuery,
+  Burger,
+  useMantineTheme,
+} from '@mantine/core';
 
-const HeaderComponent: FC = () => {
+interface Props {
+  opened: boolean;
+  openNavigation: () => void;
+}
+
+const HeaderComponent: FC<Props> = ({ opened, openNavigation }) => {
+  const theme = useMantineTheme();
+
   return (
-    <Header height={{ base: 50, md: 70 }} p="md">
+    <Header height={70} p="md">
       <Group>
-        <Title sx={{ flexGrow: 1 }}>Smart Alarm</Title>
-        <Text fz="sm" italic>
-          Signed In
-        </Text>
-        <Avatar radius="xl" color="blue">
-          LM
-        </Avatar>
+        <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
+          <Burger
+            opened={opened}
+            onClick={() => openNavigation()}
+            size="sm"
+            color={theme.colors.gray[6]}
+          />
+        </MediaQuery>
+        <Title color="blue" sx={{ flexGrow: 1 }}>
+          Smart Alarm
+        </Title>
+        <Group>
+          <Text fz="sm" italic>
+            Signed In
+          </Text>
+          <Avatar radius="xl" color="blue">
+            LM
+          </Avatar>
+        </Group>
       </Group>
     </Header>
   );

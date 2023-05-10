@@ -19,6 +19,7 @@
       "@iot-alarm-app/api": ["libs/api/src/index.ts"],
       "@iot-alarm-app/dates": ["libs/dates/src/index.ts"],
       "@iot-alarm-app/errors": ["libs/errors/src/index.ts"],
+      "@iot-alarm-app/types": ["libs/types/src/index.ts"],
       "@iot-alarm-app/validation": ["libs/validation/src/index.ts"]
     }
   },
