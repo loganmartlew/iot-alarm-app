@@ -11,6 +11,16 @@ export type WeekDaySystemName =
   | 'sunday';
 
 export default class WeekDayService {
+  static async getAll() {
+    const weekDays = await db.weekDay.findMany({
+      orderBy: {
+        sequence: 'asc',
+      },
+    });
+
+    return weekDays;
+  }
+
   static async getWeekDay(systemName: WeekDaySystemName) {
     const weekDay = await db.weekDay.findFirst({
       where: {
