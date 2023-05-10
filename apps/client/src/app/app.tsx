@@ -1,16 +1,13 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from "./app.module.css";
+import { RouterProvider } from 'react-router-dom';
+import Providers from './Providers';
+import { router } from './router';
 
-import NxWelcome from "./nx-welcome";
-
-export function App() {
+const App = () => {
   return (
-    <>
-      <NxWelcome title="iot-alarm-app" />
-
-      <div />
-    </>
+    <Providers>
+      <RouterProvider router={router} />
+    </Providers>
   );
-}
+};
 
 export default App;
