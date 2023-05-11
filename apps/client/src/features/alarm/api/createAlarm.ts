@@ -1,7 +1,7 @@
 import { axios } from '../../../config/axios';
 import { CreateWakeTime, WakeTimeDTO } from '@iot-alarm-app/api';
 import fetchFromApi from '../../../util/fetchFromApi';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { alarmsKey } from './getAlarms';
 import { WakeTimeAlarm } from '@iot-alarm-app/types';
 import { v4 as uuid } from 'uuid';

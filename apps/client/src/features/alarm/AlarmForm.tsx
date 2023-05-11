@@ -1,4 +1,5 @@
 import { WakeTimeDTO } from '@iot-alarm-app/api';
+import { WakeTimeAlarm } from '@iot-alarm-app/types';
 import { wakeTimeDataSchema } from '@iot-alarm-app/validation';
 import {
   Group,
@@ -11,7 +12,7 @@ import {
 } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { WeekDay } from '@prisma/client';
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { z } from 'zod';
 
@@ -64,19 +65,40 @@ type WeekDayString =
 
 type AlarmFormValues = z.infer<typeof alarmFormSchema>;
 
-interface Props {
-  weekDays: WeekDay[];
-  onSubmit: (dto: WakeTimeDTO) => void;
-}
-
-const AlarmForm: FC<Props> = ({ weekDays, onSubmit }) => {
-  const form = useForm<AlarmFormValues>({
-    initialValues: {
+const getInitialValues = (initialData?: WakeTimeAlarm): AlarmFormValues => {
+  if (!initialData) {
+    return {
       hour: '00',
       minute: '00',
       second: '00',
       weekDays: [],
-    },
+    };
+  }
+
+  const [hour, minute, second] = initialData.time.split(':');
+  const weekDays = initialData.days.map(
+    (day) => day.systemName
+  ) as WeekDayString[];
+
+  return {
+    hour,
+    minute,
+    second,
+    weekDays,
+  };
+};
+
+interface Props {
+  weekDays: WeekDay[];
+  onSubmit: (dto: WakeTimeDTO) => void;
+  initialData?: WakeTimeAlarm;
+}
+
+const AlarmForm: FC<Props> = ({ weekDays, onSubmit, initialData }) => {
+  const initial = useMemo(() => getInitialValues(initialData), [initialData]);
+
+  const form = useForm<AlarmFormValues>({
+    initialValues: initial,
     validate: zodResolver(alarmFormSchema),
   });
 

@@ -4,6 +4,7 @@ import { Paper, Text, Group, ActionIcon } from '@mantine/core';
 import { WeekDay } from '@prisma/client';
 import WeekDayBadge from '../weekday/WeekDayBadge';
 import { MdDelete, MdEdit } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 
 interface Props {
   alarm: WakeTimeAlarm;
@@ -43,6 +44,8 @@ const AlarmCard: FC<Props> = ({ alarm, weekDays }) => {
         </Group>
         <Group spacing="xs">
           <ActionIcon
+            component={Link}
+            to={`/alarms/${alarm.id}`}
             radius="xl"
             size="lg"
             color="blue"
