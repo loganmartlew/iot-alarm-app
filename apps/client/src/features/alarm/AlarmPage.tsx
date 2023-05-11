@@ -8,12 +8,18 @@ import { combineDataForWrapper } from '../../util/combineDataForWrapper';
 import { Button } from '@mantine/core';
 import { MdOutlineAdd } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import { useDeleteAlarm } from './api/deleteAlarm';
 
 const AlarmPage: FC = () => {
   const alarmsData = useAlarms();
   const weekDaysData = useWeekDays();
-
   const data = combineDataForWrapper(alarmsData, weekDaysData);
+
+  const alarmsDeleteMutation = useDeleteAlarm();
+
+  const onDelete = (id: string) => {
+    alarmsDeleteMutation.mutate(id);
+  };
 
   const button = (
     <Button
@@ -28,7 +34,11 @@ const AlarmPage: FC = () => {
 
   return (
     <PageWrapper title="Alarms" data={data} rightSection={button}>
-      <AlarmList alarms={alarmsData.data!} weekDays={weekDaysData.data!} />
+      <AlarmList
+        alarms={alarmsData.data!}
+        weekDays={weekDaysData.data!}
+        onDelete={onDelete}
+      />
     </PageWrapper>
   );
 };

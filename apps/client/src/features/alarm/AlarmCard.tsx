@@ -9,9 +9,10 @@ import { Link } from 'react-router-dom';
 interface Props {
   alarm: WakeTimeAlarm;
   weekDays: WeekDay[];
+  onDelete: (id: string) => void;
 }
 
-const AlarmCard: FC<Props> = ({ alarm, weekDays }) => {
+const AlarmCard: FC<Props> = ({ alarm, weekDays, onDelete }) => {
   return (
     <Paper p="md" radius="lg" withBorder>
       <Group sx={{ justifyContent: 'space-between' }}>
@@ -59,7 +60,12 @@ const AlarmCard: FC<Props> = ({ alarm, weekDays }) => {
           >
             <MdEdit size="1.5rem" />
           </ActionIcon>
-          <ActionIcon color="red" radius="xl" size="lg">
+          <ActionIcon
+            color="red"
+            radius="xl"
+            size="lg"
+            onClick={() => onDelete(alarm.id)}
+          >
             <MdDelete size="1.5rem" />
           </ActionIcon>
         </Group>

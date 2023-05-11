@@ -8,9 +8,10 @@ import { timeToDayjs } from '@iot-alarm-app/dates';
 interface Props {
   alarms: WakeTimeAlarm[];
   weekDays: WeekDay[];
+  onDelete: (id: string) => void;
 }
 
-const AlarmList: FC<Props> = ({ alarms, weekDays }) => {
+const AlarmList: FC<Props> = ({ alarms, weekDays, onDelete }) => {
   if (alarms.length <= 0) {
     return <Text>No alarms found.</Text>;
   }
@@ -33,7 +34,12 @@ const AlarmList: FC<Props> = ({ alarms, weekDays }) => {
   return (
     <Stack>
       {sortedAlarms.map((alarm) => (
-        <AlarmCard key={alarm.id} alarm={alarm} weekDays={weekDays} />
+        <AlarmCard
+          key={alarm.id}
+          alarm={alarm}
+          weekDays={weekDays}
+          onDelete={onDelete}
+        />
       ))}
     </Stack>
   );
