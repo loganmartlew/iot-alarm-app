@@ -12,7 +12,7 @@ interface Props {
   children: ReactNode;
 }
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 const Providers: FC<Props> = ({ children }) => {
   return (

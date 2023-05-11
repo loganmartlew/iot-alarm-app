@@ -66,9 +66,10 @@ type AlarmFormValues = z.infer<typeof alarmFormSchema>;
 
 interface Props {
   weekDays: WeekDay[];
+  onSubmit: (dto: WakeTimeDTO) => void;
 }
 
-const AlarmForm: FC<Props> = ({ weekDays }) => {
+const AlarmForm: FC<Props> = ({ weekDays, onSubmit }) => {
   const form = useForm<AlarmFormValues>({
     initialValues: {
       hour: '00',
@@ -91,7 +92,7 @@ const AlarmForm: FC<Props> = ({ weekDays }) => {
 
     try {
       const wakeTimeDto = wakeTimeDataSchema.parse(wakeTimeData);
-      console.log(wakeTimeDto);
+      onSubmit(wakeTimeDto);
     } catch (error) {
       console.error(error);
     }
