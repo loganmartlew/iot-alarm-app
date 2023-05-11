@@ -6,6 +6,7 @@
     "dev": "nx run-many --target=serve --projects=client,server --parallel",
     "dev:client": "nx run client:serve",
     "dev:server": "nx run server:serve",
+    "build": "nx run-many --target=build --projects=client,server --parallel",
     "test": "nx run-many --target=test --projects=client,server --parallel",
     "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand"
   },
