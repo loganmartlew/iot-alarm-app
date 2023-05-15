@@ -35,8 +35,6 @@ export default class AlarmService {
     const alarmSetTime = dateTimeToDayjs(alarmSetDto.timeTriggered);
     const sleepTime = alarmSetTime.add(10, 'minutes');
 
-    console.log(alarmSetTime);
-
     const wakeTimes = await WakeTimeService.getAll();
 
     if (wakeTimes.length <= 0) {
@@ -69,8 +67,6 @@ export default class AlarmService {
 
     const validSleepScheduleDto =
       sleepScheduleDataSchema.parse(sleepScheduleDto);
-
-    console.log(validSleepScheduleDto);
 
     return await SleepScheduleService.createSleepSchedule(
       validSleepScheduleDto
