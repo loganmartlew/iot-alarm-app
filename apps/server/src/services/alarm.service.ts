@@ -8,7 +8,7 @@ import { getSortedAlarms } from '../util/setAlarm/getSortedAlarms';
 import SleepScheduleService from './sleepSchedule.service';
 import WakeTimeService from './wakeTime.service';
 import { WeekDaySystemName } from './weekDay.service';
-import { timeToDayjs } from '@iot-alarm-app/dates';
+import { dateTimeToDayjs, timeToDayjs } from '@iot-alarm-app/dates';
 
 export interface Alarm {
   day: WeekDaySystemName;
@@ -28,7 +28,7 @@ export const weekDayNumbers = {
 
 export default class AlarmService {
   static async setAlarm(alarmSetDto: AlarmSetDTO): Promise<SleepSchedule> {
-    const alarmSetTime = timeToDayjs(alarmSetDto.timeTriggered);
+    const alarmSetTime = dateTimeToDayjs(alarmSetDto.timeTriggered);
     const sleepTime = alarmSetTime.add(10, 'minutes');
 
     const wakeTimes = await WakeTimeService.getAll();
