@@ -2,9 +2,10 @@
 import { ApiResponse } from '@iot-alarm-app/api';
 import { ApiError } from '@iot-alarm-app/errors';
 import Axios, { AxiosError } from 'axios';
+import { apiUrl } from '../environments/environment';
 
 export const axios = Axios.create({
-  baseURL: 'http://localhost:3333',
+  baseURL: apiUrl,
 });
 
 axios.interceptors.response.use(
