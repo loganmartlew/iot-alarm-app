@@ -8,7 +8,11 @@ import { getSortedAlarms } from '../util/setAlarm/getSortedAlarms';
 import SleepScheduleService from './sleepSchedule.service';
 import WakeTimeService from './wakeTime.service';
 import { WeekDaySystemName } from './weekDay.service';
-import { dateTimeToDayjs, timeToDayjs } from '@iot-alarm-app/dates';
+import {
+  dateTimeToDayjs,
+  dayjsToDateTime,
+  timeToDayjs,
+} from '@iot-alarm-app/dates';
 
 export interface Alarm {
   day: WeekDaySystemName;
@@ -30,6 +34,8 @@ export default class AlarmService {
   static async setAlarm(alarmSetDto: AlarmSetDTO): Promise<SleepSchedule> {
     const alarmSetTime = dateTimeToDayjs(alarmSetDto.timeTriggered);
     const sleepTime = alarmSetTime.add(10, 'minutes');
+
+    console.log(alarmSetTime);
 
     const wakeTimes = await WakeTimeService.getAll();
 
@@ -56,13 +62,15 @@ export default class AlarmService {
     const optimalWakeTime = calculateWakeupTime(sleepTime, adjustedWakeUpTime);
 
     const sleepScheduleDto: SleepScheduleDTO = {
-      sleepTime: sleepTime.toDate().toISOString(),
-      wakeTime: adjustedWakeUpTime.toDate().toISOString(),
-      optimalWakeTime: optimalWakeTime.toDate().toISOString(),
+      sleepTime: dayjsToDateTime(sleepTime),
+      wakeTime: dayjsToDateTime(adjustedWakeUpTime),
+      optimalWakeTime: dayjsToDateTime(optimalWakeTime),
     };
 
     const validSleepScheduleDto =
       sleepScheduleDataSchema.parse(sleepScheduleDto);
+
+    console.log(validSleepScheduleDto);
 
     return await SleepScheduleService.createSleepSchedule(
       validSleepScheduleDto
