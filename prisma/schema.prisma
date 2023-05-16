@@ -36,4 +36,14 @@ model SleepSchedule {
   wakeTime        String
   optimalWakeTime String
   completed       Boolean @default(false)
+  alarmStops      AlarmStop[]
+}
+
+model AlarmStop {
+  id         String @id @default(uuid())
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  datetime   String
+  sleepSchedule SleepSchedule @relation(fields: [sleepScheduleId], references: [id])
+  sleepScheduleId String
 }

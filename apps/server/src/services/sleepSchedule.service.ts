@@ -13,4 +13,12 @@ export default class SleepScheduleService {
 
     return sleepSchedule;
   }
+
+  static async getSleepSchedule(id: string) {
+    const sleepSchedule = await db.sleepSchedule.findUnique({
+      where: { id },
+    });
+
+    return sleepSchedule;
+  }
 }

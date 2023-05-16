@@ -32,5 +32,6 @@ export type UpdateWakeTime = Controller<WakeTimeAlarm>;
 export type DeleteWakeTime = Controller<WakeTime>;
 
 export type SetAlarm = Controller<SleepSchedule>;
+export type StopAlarm = Controller<void>;
 
 export type GetWeekDays = Controller<WeekDay[]>;

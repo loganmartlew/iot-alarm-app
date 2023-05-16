@@ -46,3 +46,10 @@ export const sleepScheduleDataSchema = z
       )
     );
   });
+
+export const alarmStopSchema = z.object({
+  timeStopped: z.string().refine((val) => {
+    return dateTimeToDayjs(val).isValid();
+  }, 'String is not a valid date'),
+  sleepScheduleId: z.string(),
+});
