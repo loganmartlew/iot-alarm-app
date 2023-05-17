@@ -53,3 +53,10 @@ export const alarmStopSchema = z.object({
   }, 'String is not a valid date'),
   sleepScheduleId: z.string(),
 });
+
+export const alarmCancelSchema = z.object({
+  timeCancelled: z.string().refine((val) => {
+    return dateTimeToDayjs(val).isValid();
+  }, 'String is not a valid date'),
+  sleepScheduleId: z.string(),
+});

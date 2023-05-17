@@ -21,4 +21,13 @@ export default class SleepScheduleService {
 
     return sleepSchedule;
   }
+
+  static async completeSleepSchedule(id: string) {
+    const sleepSchedule = await db.sleepSchedule.update({
+      where: { id },
+      data: { completed: true },
+    });
+
+    return sleepSchedule;
+  }
 }
