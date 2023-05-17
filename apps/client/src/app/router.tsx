@@ -3,6 +3,7 @@ import AppLayout from '../features/layout/AppLayout';
 import AlarmPage from '../features/alarm/AlarmPage';
 import NewAlarmPage from '../features/alarm/NewAlarmPage';
 import EditAlarmPage from '../features/alarm/EditAlarmPage';
+import RestPeriodPage from '../features/restPeriod/RestPeriodPage';
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
       {
         path: '/alarms/:id',
         element: <EditAlarmPage />,
+      },
+      {
+        path: '/restperiods',
+        element: <RestPeriodPage />,
       },
     ],
   },

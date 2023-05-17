@@ -1,12 +1,13 @@
 import { FC, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Navbar, NavLink } from '@mantine/core';
-import { MdHome, MdSettings } from 'react-icons/md';
+import { MdHistory, MdHome, MdSettings } from 'react-icons/md';
 import { RiAlarmFill } from 'react-icons/ri';
 
 const links = [
   { label: 'Home', path: '/', icon: <MdHome /> },
   { label: 'Alarms', path: '/alarms', icon: <RiAlarmFill /> },
+  { label: 'Rest Periods', path: '/restperiods', icon: <MdHistory /> },
   { label: 'Settings', path: '/settings', icon: <MdSettings /> },
 ];
 
