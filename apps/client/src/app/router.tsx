@@ -4,6 +4,7 @@ import AlarmPage from '../features/alarm/AlarmPage';
 import NewAlarmPage from '../features/alarm/NewAlarmPage';
 import EditAlarmPage from '../features/alarm/EditAlarmPage';
 import RestPeriodPage from '../features/restPeriod/RestPeriodPage';
+import RestPeriodDetailsPage from '../features/restPeriod/RestPeriodDetailsPage';
 
 export const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ export const router = createBrowserRouter([
       {
         path: '/restperiods',
         element: <RestPeriodPage />,
+      },
+      {
+        path: '/restperiods/:id',
+        element: <RestPeriodDetailsPage />,
       },
     ],
   },
