@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import wakeTimeRouter from './wakeTime.route';
 import weekDayRouter from './weekDay.route';
+import sleepScheduleRouter from './sleepSchedule.route';
 import {
   cancelAlarm,
   setAlarm,
@@ -12,6 +13,7 @@ const router = Router();
 
 router.use('/waketime', wakeTimeRouter);
 router.use('/weekday', weekDayRouter);
+router.use('/sleepschedule', sleepScheduleRouter);
 
 router.post('/setalarm', response(setAlarm));
 router.post('/stopalarm', response(stopAlarm));

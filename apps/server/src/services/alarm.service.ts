@@ -79,7 +79,7 @@ export default class AlarmService {
   }
 
   static async stopAlarm(alarmStopDto: AlarmStopDTO): Promise<void> {
-    const sleepSchedule = await SleepScheduleService.getSleepSchedule(
+    const sleepSchedule = await SleepScheduleService.getOne(
       alarmStopDto.sleepScheduleId
     );
 
