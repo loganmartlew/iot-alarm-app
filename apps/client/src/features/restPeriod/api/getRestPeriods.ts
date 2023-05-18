@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { axios } from '../../../config/axios';
 import fetchFromApi from '../../../util/fetchFromApi';
 
-export const alarmsKey = ['alarms'];
+export const restPeriodKey = ['restperiod'];
 
 export const getRestPeriods = () => {
   return fetchFromApi<GetCompletedSleepSchedules>(
@@ -12,5 +12,5 @@ export const getRestPeriods = () => {
 };
 
 export const useRestPeriods = () => {
-  return useQuery(alarmsKey, getRestPeriods);
+  return useQuery(restPeriodKey, getRestPeriods);
 };

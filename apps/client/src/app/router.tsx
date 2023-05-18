@@ -5,6 +5,7 @@ import NewAlarmPage from '../features/alarm/NewAlarmPage';
 import EditAlarmPage from '../features/alarm/EditAlarmPage';
 import RestPeriodPage from '../features/restPeriod/RestPeriodPage';
 import RestPeriodDetailsPage from '../features/restPeriod/RestPeriodDetailsPage';
+import DashboardPage from '../features/dashboard/DashboardPage';
 
 export const router = createBrowserRouter([
   {
@@ -13,7 +14,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <div>hello world</div>,
+        element: <DashboardPage />,
       },
       {
         path: '/alarms',
