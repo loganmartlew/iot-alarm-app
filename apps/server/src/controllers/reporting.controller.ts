@@ -5,6 +5,8 @@ import {
   ReportingLastAlarmStops,
   ReportingLastSleepDuration,
   ReportingLastSleepSchedule,
+  ReportingRecommendations,
+  ReportingRecommendedSleepTime,
 } from '@iot-alarm-app/api';
 import { StatusCodes } from 'http-status-codes';
 import ReportingService from '../services/reporting.service';
@@ -67,5 +69,26 @@ export const getLastAlarmStops: ReportingLastAlarmStops = async () => {
     status: StatusCodes.OK,
     message: 'Last alarm stops',
     data: lastAlarmStops,
+  };
+};
+
+export const getRecommendedSleepTime: ReportingRecommendedSleepTime =
+  async () => {
+    const recommendedSleepTime = await ReportingService.recommendedSleepTime();
+
+    return {
+      status: StatusCodes.OK,
+      message: 'Recommended sleep time',
+      data: recommendedSleepTime,
+    };
+  };
+
+export const getRecommendations: ReportingRecommendations = async () => {
+  const recommendations = await ReportingService.recommendations();
+
+  return {
+    status: StatusCodes.OK,
+    message: 'Recommendations',
+    data: recommendations,
   };
 };

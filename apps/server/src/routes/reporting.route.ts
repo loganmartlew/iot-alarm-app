@@ -7,9 +7,14 @@ import {
   getLastAlarmStops,
   getLastSleepDuration,
   getLastSleepSchedule,
+  getRecommendations,
+  getRecommendedSleepTime,
 } from '../controllers/reporting.controller';
 
 const router = Router();
+
+router.get('/recommendedsleeptime', response(getRecommendedSleepTime));
+router.get('/recommendations', response(getRecommendations));
 
 router.get('/averagesleeptime', response(getAverageSleepTime));
 router.get('/averagesleepduration', response(getAverageSleepDuration));

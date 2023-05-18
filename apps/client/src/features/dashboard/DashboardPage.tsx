@@ -8,6 +8,8 @@ import AverageSleepTime from '../reporting/reportCards/AverageSleepTime';
 import LastAlarmStops from '../reporting/reportCards/LastAlarmStops';
 import LastSleepDuration from '../reporting/reportCards/LastSleepDuration';
 import LastSleepTime from '../reporting/reportCards/LastSleepTime';
+import Recommendations from '../reporting/reportCards/Recommendations';
+import RecommendedSleepTime from '../reporting/reportCards/RecommendedSleepTime';
 import ReportingSection from '../reporting/ReportingSection';
 
 const DashboardPage: FC = () => {
@@ -25,7 +27,10 @@ const DashboardPage: FC = () => {
 
   return (
     <Stack>
-      <ReportingSection title="Recommendations">No data...</ReportingSection>
+      <ReportingSection title="Recommendations">
+        <RecommendedSleepTime />
+        <Recommendations />
+      </ReportingSection>
       <ReportingSection title="Averages">
         <AverageSleepTime />
         <AverageSleepDuration />

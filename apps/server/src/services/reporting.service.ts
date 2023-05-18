@@ -3,13 +3,23 @@ import {
   dayjsToTime,
   timeToDayjs,
 } from '@iot-alarm-app/dates';
+import { Recommendation } from '@iot-alarm-app/types';
 import { Dayjs } from 'dayjs';
 import db from '../db';
+import { asyncFilter } from '../util/asyncFilter';
+import { getSortedAlarms } from '../util/setAlarm/getSortedAlarms';
 import SleepScheduleService from './sleepSchedule.service';
+import WakeTimeService from './wakeTime.service';
 
 const normaliseDate = (date: Dayjs) => {
   return date.year(2021).month(0).date(1);
 };
+
+interface Condition {
+  title: string;
+  description: string;
+  condition: () => Promise<boolean>;
+}
 
 export default class ReportingService {
   static async averageSleepTime() {
@@ -113,5 +123,73 @@ export default class ReportingService {
     });
 
     return alarmStops.length;
+  }
+
+  static async recommendedSleepTime() {
+    const wakeTimes = await WakeTimeService.getAll();
+    const alarms = getSortedAlarms(wakeTimes);
+
+    const baseTime = normaliseDate(timeToDayjs('00:00:00'));
+
+    const scheduleSeconds = alarms.map((alarm) => {
+      const wakeTime = normaliseDate(timeToDayjs(alarm.time));
+
+      const wakeTimeSeconds = wakeTime.diff(baseTime, 'seconds');
+
+      return wakeTimeSeconds;
+    });
+
+    const averageSeconds =
+      scheduleSeconds.reduce((a, b) => a + b, 0) / scheduleSeconds.length;
+
+    const averageTime = baseTime.add(averageSeconds, 'seconds');
+
+    const recommendedSleepTime = averageTime
+      .subtract(7.5, 'hours')
+      .subtract(10, 'minutes');
+
+    return dayjsToTime(recommendedSleepTime);
+  }
+
+  static async recommendations() {
+    const conditions: Condition[] = [
+      {
+        title: 'Earlier Sleep Time',
+        description: `Try going to bed earlier. We recommend that you go to sleep around ${timeToDayjs(
+          await this.recommendedSleepTime()
+        ).format('HH:mm')} to get the best sleep.`,
+        condition: async () => {
+          const averageDuration = await this.averageSleepDuration();
+          const duration = +averageDuration.split(' ')[0];
+
+          return duration < 7.5;
+        },
+      },
+      {
+        title: 'Get Up Faster',
+        description: `Try getting up quicker after your alarm goes off. Snoozing your alarm without getting up increases your sleep inertia, causing you to feel more tired.`,
+        condition: async () => {
+          const averageStops = await this.averageAlarmStops();
+
+          return averageStops > 2;
+        },
+      },
+    ];
+
+    const actualRecommendations: Condition[] = (
+      await asyncFilter(
+        conditions,
+        async (condition) => await condition.condition()
+      )
+    ).filter((condition) => !!condition) as Condition[];
+
+    const recommendations: Recommendation[] = actualRecommendations.map(
+      (recommendation) => ({
+        title: recommendation.title,
+        description: recommendation.description,
+      })
+    );
+
+    return recommendations;
   }
 }

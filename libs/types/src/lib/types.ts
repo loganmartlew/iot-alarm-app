@@ -7,3 +7,8 @@ export type WakeTimeAlarm = WakeTime & {
 export type SleepScheduleStops = SleepSchedule & {
   alarmStops: AlarmStop[];
 };
+
+export type Recommendation = {
+  title: string;
+  description: string;
+};
