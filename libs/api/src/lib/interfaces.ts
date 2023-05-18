@@ -40,3 +40,7 @@ export type GetWeekDays = Controller<WeekDay[]>;
 export type GetSleepSchedules = Controller<SleepSchedule[]>;
 export type GetSleepSchedule = Controller<SleepScheduleStops>;
 export type GetCompletedSleepSchedules = Controller<SleepSchedule[]>;
+
+export type ReportingAverageSleepTime = Controller<string>;
+export type ReportingAverageSleepDuration = Controller<string>;
+export type ReportingAverageAlarmStops = Controller<number>;
