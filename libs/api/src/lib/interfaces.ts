@@ -44,3 +44,6 @@ export type GetCompletedSleepSchedules = Controller<SleepSchedule[]>;
 export type ReportingAverageSleepTime = Controller<string>;
 export type ReportingAverageSleepDuration = Controller<string>;
 export type ReportingAverageAlarmStops = Controller<number>;
+export type ReportingLastSleepSchedule = Controller<SleepSchedule>;
+export type ReportingLastSleepDuration = Controller<string>;
+export type ReportingLastAlarmStops = Controller<number>;

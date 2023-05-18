@@ -71,4 +71,47 @@ export default class ReportingService {
 
     return averageStops;
   }
+
+  static async lastSleepSchedule() {
+    const sleepSchedules = await SleepScheduleService.getCompleted();
+
+    const mostRecent = sleepSchedules.reduce((recent, curr) => {
+      if (
+        dateTimeToDayjs(curr.sleepTime).isAfter(
+          dateTimeToDayjs(recent.sleepTime)
+        )
+      ) {
+        return curr;
+      }
+
+      return recent;
+    });
+
+    return mostRecent;
+  }
+
+  static async lastSleepDuration() {
+    const lastSleepSchedule = await this.lastSleepSchedule();
+
+    const sleepTime = dateTimeToDayjs(lastSleepSchedule.sleepTime);
+    const wakeTime = dateTimeToDayjs(lastSleepSchedule.optimalWakeTime);
+
+    const duration = Math.abs(wakeTime.diff(sleepTime, 'seconds'));
+
+    const durationHrs = duration / 60 / 60; // convert to hours
+
+    return `${durationHrs} hrs`;
+  }
+
+  static async lastAlarmStops() {
+    const lastSleepSchedule = await this.lastSleepSchedule();
+
+    const alarmStops = await db.alarmStop.findMany({
+      where: {
+        sleepScheduleId: lastSleepSchedule.id,
+      },
+    });
+
+    return alarmStops.length;
+  }
 }
