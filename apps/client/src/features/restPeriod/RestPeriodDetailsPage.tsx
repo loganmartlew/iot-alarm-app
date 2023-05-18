@@ -12,7 +12,7 @@ const RestPeriodDetailsPage: FC = () => {
 
   const restPeriodData = useRestPeriod(params.id || '');
   const restPeriod = restPeriodData.data;
-  const alarmStops = restPeriod!.alarmStops;
+  const alarmStops = restPeriod?.alarmStops;
 
   return (
     <>
@@ -20,25 +20,29 @@ const RestPeriodDetailsPage: FC = () => {
         <Group spacing="xl" mt="md">
           <Stack spacing={0}>
             <Title order={4}>
-              {dateTimeToDayjs(restPeriod!.sleepTime).format('D MMMM')}
+              {dateTimeToDayjs(restPeriod?.sleepTime || '').format('D MMMM')}
             </Title>
             <Title order={3}>
-              {dateTimeToDayjs(restPeriod!.sleepTime).format('HH:mm:ss')}
+              {dateTimeToDayjs(restPeriod?.sleepTime || '').format('HH:mm:ss')}
             </Title>
           </Stack>
           <Title order={2}>-</Title>
           <Stack spacing={0}>
             <Title order={4}>
-              {dateTimeToDayjs(restPeriod!.optimalWakeTime).format('D MMMM')}
+              {dateTimeToDayjs(restPeriod?.optimalWakeTime || '').format(
+                'D MMMM'
+              )}
             </Title>
             <Title order={3}>
-              {dateTimeToDayjs(restPeriod!.optimalWakeTime).format('HH:mm:ss')}
+              {dateTimeToDayjs(restPeriod?.optimalWakeTime || '').format(
+                'HH:mm:ss'
+              )}
             </Title>
           </Stack>
         </Group>
       </PageWrapper>
       <PageWrapper title="Alarm Dismissals" data={restPeriodData}>
-        <AlarmStopList alarmStops={alarmStops} />
+        <AlarmStopList alarmStops={alarmStops || []} />
       </PageWrapper>
     </>
   );

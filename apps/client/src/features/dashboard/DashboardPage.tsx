@@ -1,11 +1,28 @@
-import { Stack } from '@mantine/core';
-import { FC } from 'react';
+import { Button, Stack } from '@mantine/core';
+import { FC, useState } from 'react';
+import { MdOpenInNew } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 import AverageAlarmStops from '../reporting/reportCards/AverageAlarmStops';
 import AverageSleepDuration from '../reporting/reportCards/AverageSleepDuration';
 import AverageSleepTime from '../reporting/reportCards/AverageSleepTime';
+import LastAlarmStops from '../reporting/reportCards/LastAlarmStops';
+import LastSleepDuration from '../reporting/reportCards/LastSleepDuration';
+import LastSleepTime from '../reporting/reportCards/LastSleepTime';
 import ReportingSection from '../reporting/ReportingSection';
 
 const DashboardPage: FC = () => {
+  const [lastRestPeriodId, setLastRestPeriodId] = useState<string>('');
+
+  const viewRestPeriodButton = lastRestPeriodId ? (
+    <Button
+      component={Link}
+      to={`/restperiods/${lastRestPeriodId}`}
+      leftIcon={<MdOpenInNew />}
+    >
+      View Details
+    </Button>
+  ) : null;
+
   return (
     <Stack>
       <ReportingSection title="Recommendations">No data...</ReportingSection>
@@ -14,7 +31,14 @@ const DashboardPage: FC = () => {
         <AverageSleepDuration />
         <AverageAlarmStops />
       </ReportingSection>
-      <ReportingSection title="Last Rest Period">No data...</ReportingSection>
+      <ReportingSection
+        title="Last Rest Period"
+        rightSection={viewRestPeriodButton}
+      >
+        <LastSleepTime setSleepScheduleId={setLastRestPeriodId} />
+        <LastSleepDuration />
+        <LastAlarmStops />
+      </ReportingSection>
     </Stack>
   );
 };
