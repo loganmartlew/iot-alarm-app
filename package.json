@@ -9,7 +9,7 @@
     "build": "nx run-many --target=build --projects=client,server --parallel --configuration=production",
     "test": "nx run-many --target=test --projects=client,server --parallel",
     "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
-    "setup": "npm ci && prisma generate"
+    "setup": "npm i && prisma generate"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
