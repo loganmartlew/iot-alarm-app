@@ -1,4 +1,8 @@
-import { AlarmSetDTO, SleepScheduleDTO } from '@iot-alarm-app/api';
+import {
+  AlarmSetDTO,
+  AlarmStopDTO,
+  SleepScheduleDTO,
+} from '@iot-alarm-app/api';
 import { ApiError } from '@iot-alarm-app/errors';
 import { sleepScheduleDataSchema } from '@iot-alarm-app/validation';
 import { SleepSchedule } from '@prisma/client';
@@ -8,6 +12,7 @@ import { getSortedAlarms } from '../util/setAlarm/getSortedAlarms';
 import SleepScheduleService from './sleepSchedule.service';
 import WakeTimeService from './wakeTime.service';
 import { WeekDaySystemName } from './weekDay.service';
+import AlarmStopService from './alarmStop.service';
 import {
   dateTimeToDayjs,
   dayjsToDateTime,
@@ -71,5 +76,17 @@ export default class AlarmService {
     return await SleepScheduleService.createSleepSchedule(
       validSleepScheduleDto
     );
+  }
+
+  static async stopAlarm(alarmStopDto: AlarmStopDTO): Promise<void> {
+    const sleepSchedule = await SleepScheduleService.getOne(
+      alarmStopDto.sleepScheduleId
+    );
+
+    if (sleepSchedule?.completed) {
+      throw new ApiError(null, 3003, 'Sleep schedule already completed');
+    }
+
+    await AlarmStopService.createAlarmStop(alarmStopDto);
   }
 }

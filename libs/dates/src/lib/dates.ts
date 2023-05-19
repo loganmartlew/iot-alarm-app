@@ -9,6 +9,8 @@ export const formats = {
   date: 'YYYY-MM-DD',
   time: 'HH:mm:ss',
   dateTime: 'YYYY-MM-DD HH:mm:ss',
+  displayDate: 'D MMM, YYYY',
+  displayDateTime: 'D MMM, YYYY HH:mm',
 };
 
 export const timeToDayjs = (time: string) => dayjs(time, formats.time);
@@ -21,3 +23,8 @@ export const dateTimeToDayjs = (dateTime: string) =>
   dayjs(dateTime, formats.dateTime);
 export const dayjsToDateTime = (dayjs: dayjs.Dayjs) =>
   dayjs.format(formats.dateTime);
+
+export const displayDate = (dayjs: dayjs.Dayjs) =>
+  dayjs.format(formats.displayDate);
+export const displayDateTime = (dayjs: dayjs.Dayjs) =>
+  dayjs.format(formats.displayDateTime);

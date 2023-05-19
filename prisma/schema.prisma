@@ -11,29 +11,50 @@ datasource db {
 }
 
 model WakeTime {
-  id         String @id @default(uuid())
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  time       String
-  days       WeekDay[]
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  time      String
+  days      WeekDay[]
 }
 
 model WeekDay {
-  id         String @id @default(uuid())
+  id         String     @id @default(uuid())
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
   name       String
-  systemName String @unique
-  sequence   Int @default(0)
+  systemName String     @unique
+  sequence   Int        @default(0)
   wakeTimes  WakeTime[]
 }
 
 model SleepSchedule {
-  id              String @id @default(uuid())
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
+  id              String       @id @default(uuid())
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
   sleepTime       String
   wakeTime        String
   optimalWakeTime String
-  completed       Boolean @default(false)
+  completed       Boolean      @default(false)
+  alarmStops      AlarmStop[]
+  sleepRating     SleepRating? @relation
+  sleepRatingId   String?
+}
+
+model AlarmStop {
+  id              String        @id @default(uuid())
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  datetime        String
+  sleepSchedule   SleepSchedule @relation(fields: [sleepScheduleId], references: [id])
+  sleepScheduleId String
+}
+
+model SleepRating {
+  id              String        @id @default(uuid())
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  rating          Int
+  sleepSchedule   SleepSchedule @relation(fields: [sleepScheduleId], references: [id])
+  sleepScheduleId String        @unique
 }
