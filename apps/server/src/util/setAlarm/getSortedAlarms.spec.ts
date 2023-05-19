@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { WakeTime, WeekDay } from '@prisma/client';
+import { WeekDay } from '@prisma/client';
 import { getSortedAlarms } from './getSortedAlarms';
 import { timeToDayjs } from '@iot-alarm-app/dates';
 import { WakeTimeAlarm } from '@iot-alarm-app/types';
@@ -9,13 +9,14 @@ import { WakeTimeAlarm } from '@iot-alarm-app/types';
 dayjs.extend(utc);
 dayjs.extend(customParseFormat);
 
-const generateWeekDay = (weekDay: string) => {
+const generateWeekDay = (weekDay: string): WeekDay => {
   return {
     id: '1',
     name: weekDay,
     systemName: weekDay,
     createdAt: new Date(),
     updatedAt: new Date(),
+    sequence: 1,
   };
 };
 
