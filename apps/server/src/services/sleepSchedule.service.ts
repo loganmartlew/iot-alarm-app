@@ -14,6 +14,7 @@ export default class SleepScheduleService {
       where: { id },
       include: {
         alarmStops: true,
+        sleepRating: true,
       },
     });
 
@@ -27,6 +28,14 @@ export default class SleepScheduleService {
   static async getCompleted() {
     const sleepSchedules = await db.sleepSchedule.findMany({
       where: { completed: true },
+    });
+
+    return sleepSchedules;
+  }
+
+  static async getUnrated() {
+    const sleepSchedules = await db.sleepSchedule.findMany({
+      where: { completed: true, sleepRating: null },
     });
 
     return sleepSchedules;

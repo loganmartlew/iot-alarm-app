@@ -1,4 +1,10 @@
-import { AlarmStop, SleepSchedule, WakeTime, WeekDay } from '@prisma/client';
+import {
+  AlarmStop,
+  SleepRating,
+  SleepSchedule,
+  WakeTime,
+  WeekDay,
+} from '@prisma/client';
 
 export type WakeTimeAlarm = WakeTime & {
   days: WeekDay[];
@@ -6,6 +12,7 @@ export type WakeTimeAlarm = WakeTime & {
 
 export type SleepScheduleStops = SleepSchedule & {
   alarmStops: AlarmStop[];
+  sleepRating: SleepRating | null;
 };
 
 export type Recommendation = {

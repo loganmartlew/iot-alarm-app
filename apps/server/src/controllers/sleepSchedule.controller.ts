@@ -2,6 +2,7 @@ import {
   GetCompletedSleepSchedules,
   GetSleepSchedule,
   GetSleepSchedules,
+  GetUnratedSleepSchedules,
 } from '@iot-alarm-app/api';
 import { StatusCodes } from 'http-status-codes';
 import SleepScheduleService from '../services/sleepSchedule.service';
@@ -38,3 +39,13 @@ export const getCompletedSleepSchedules: GetCompletedSleepSchedules =
       data: sleepSchedules,
     };
   };
+
+export const getUnratedSleepSchedules: GetUnratedSleepSchedules = async () => {
+  const sleepSchedules = await SleepScheduleService.getUnrated();
+
+  return {
+    status: StatusCodes.OK,
+    message: 'Get unrated sleep schedules',
+    data: sleepSchedules,
+  };
+};

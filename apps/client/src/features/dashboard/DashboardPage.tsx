@@ -26,7 +26,7 @@ const DashboardPage: FC = () => {
   ) : null;
 
   return (
-    <Stack>
+    <Stack spacing="xl">
       <ReportingSection title="Recommendations">
         <RecommendedSleepTime />
         <Recommendations />
