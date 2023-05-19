@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { dateTimeToDayjs } from '@iot-alarm-app/dates';
-import { Group, Stack, Text, Title } from '@mantine/core';
+import { Group, Rating, Stack, Text, Title } from '@mantine/core';
 import { FC } from 'react';
 import { useParams } from 'react-router-dom';
 import PageWrapper from '../../components/PageWrapper';
@@ -44,6 +44,9 @@ const RestPeriodDetailsPage: FC = () => {
       <PageWrapper title="Sleep Rating" data={restPeriodData}>
         {!restPeriod?.sleepRating && (
           <Text>No sleep rating for this period...</Text>
+        )}
+        {restPeriod?.sleepRating && (
+          <Rating value={restPeriod.sleepRating.rating} size="lg" readOnly />
         )}
       </PageWrapper>
       <PageWrapper title="Alarm Dismissals" data={restPeriodData}>

@@ -6,9 +6,14 @@ import { FC, useState } from 'react';
 interface Props {
   unratedRestPeriod: SleepSchedule;
   rating?: number;
+  onSubmit: (rating: number, sleepScheduleId: string) => void;
 }
 
-const UnratedPeriodCard: FC<Props> = ({ unratedRestPeriod, rating }) => {
+const UnratedPeriodCard: FC<Props> = ({
+  unratedRestPeriod,
+  rating,
+  onSubmit,
+}) => {
   const isStatic = rating !== undefined;
   const [value, setValue] = useState(isStatic ? rating : 0);
 
@@ -84,7 +89,11 @@ const UnratedPeriodCard: FC<Props> = ({ unratedRestPeriod, rating }) => {
             readOnly={isStatic}
           />
         </Box>
-        <Button>Submit Rating</Button>
+        {!isStatic && (
+          <Button onClick={() => onSubmit(value, unratedRestPeriod.id)}>
+            Submit Rating
+          </Button>
+        )}
       </Group>
     </Paper>
   );

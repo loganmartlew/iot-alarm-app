@@ -3,6 +3,7 @@ import wakeTimeRouter from './wakeTime.route';
 import weekDayRouter from './weekDay.route';
 import sleepScheduleRouter from './sleepSchedule.route';
 import reportingRouter from './reporting.route';
+import sleepRatingRouter from './sleepRating.route';
 import {
   cancelAlarm,
   setAlarm,
@@ -16,6 +17,7 @@ router.use('/waketime', wakeTimeRouter);
 router.use('/weekday', weekDayRouter);
 router.use('/sleepschedule', sleepScheduleRouter);
 router.use('/reporting', reportingRouter);
+router.use('/sleeprating', sleepRatingRouter);
 
 router.post('/setalarm', response(setAlarm));
 router.post('/stopalarm', response(stopAlarm));

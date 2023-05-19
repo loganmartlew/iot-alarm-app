@@ -4,7 +4,7 @@ import {
   SleepScheduleStops,
   WakeTimeAlarm,
 } from '@iot-alarm-app/types';
-import { SleepSchedule, WakeTime, WeekDay } from '@prisma/client';
+import { SleepRating, SleepSchedule, WakeTime, WeekDay } from '@prisma/client';
 import { Request, Response } from 'express';
 
 export type ApiResponse<T> =
@@ -54,3 +54,5 @@ export type ReportingLastSleepDuration = Controller<string>;
 export type ReportingLastAlarmStops = Controller<number>;
 export type ReportingRecommendedSleepTime = Controller<string>;
 export type ReportingRecommendations = Controller<Recommendation[]>;
+
+export type CreateSleepRating = Controller<SleepRating>;

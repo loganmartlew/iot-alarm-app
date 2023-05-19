@@ -6,9 +6,10 @@ import UnratedPeriodCard from './UnratedPeriodCard';
 
 interface Props {
   unratedRestPeriods: SleepSchedule[];
+  onSubmit: (rating: number, sleepScheduleId: string) => void;
 }
 
-const UnratedPeriodList: FC<Props> = ({ unratedRestPeriods }) => {
+const UnratedPeriodList: FC<Props> = ({ unratedRestPeriods, onSubmit }) => {
   if (unratedRestPeriods.length <= 0) {
     return <Text>No unrated rest periods found.</Text>;
   }
@@ -34,6 +35,7 @@ const UnratedPeriodList: FC<Props> = ({ unratedRestPeriods }) => {
         <UnratedPeriodCard
           key={unratedRestPeriod.id}
           unratedRestPeriod={unratedRestPeriod}
+          onSubmit={onSubmit}
         />
       ))}
     </Stack>
