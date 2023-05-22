@@ -32,7 +32,6 @@ export const stopAlarm: StopAlarm = async (req) => {
 };
 
 export const cancelAlarm: CancelAlarm = async (req) => {
-  console.log('CANCEL', req.body);
   const alarmCancelDto = alarmCancelSchema.parse(req.body);
 
   await SleepScheduleService.completeSleepSchedule(
