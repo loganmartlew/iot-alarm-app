@@ -1,5 +1,6 @@
 import {
   dateTimeToDayjs,
+  dayjsToDateTime,
   dayjsToTime,
   timeToDayjs,
 } from '@iot-alarm-app/dates';
@@ -10,6 +11,7 @@ import { asyncFilter } from '../util/asyncFilter';
 import { getSortedAlarms } from '../util/setAlarm/getSortedAlarms';
 import SleepScheduleService from './sleepSchedule.service';
 import WakeTimeService from './wakeTime.service';
+import { SleepSchedule } from '@prisma/client';
 
 const normaliseDate = (date: Dayjs) => {
   return date.year(2021).month(0).date(1);
@@ -36,7 +38,7 @@ export default class ReportingService {
     });
 
     const averageSeconds =
-      scheduleSeconds.reduce((a, b) => a + b, 0) / scheduleSeconds.length;
+      scheduleSeconds.reduce((a, b) => a + b, 0) / scheduleSeconds.length || 0;
 
     const averageTime = dayjsToTime(baseTime.add(averageSeconds, 'seconds'));
 
@@ -56,7 +58,7 @@ export default class ReportingService {
     });
 
     const averageDuration =
-      durations.reduce((a, b) => a + b, 0) / durations.length;
+      durations.reduce((a, b) => a + b, 0) / durations.length || 0;
 
     const averageDurationHrs = averageDuration / 60 / 60; // convert to hours
 
@@ -77,13 +79,19 @@ export default class ReportingService {
       return schedule.alarmStops.length;
     });
 
-    const averageStops = stops.reduce((a, b) => a + b, 0) / stops.length;
+    const averageStops = stops.reduce((a, b) => a + b, 0) / stops.length || 0;
 
     return averageStops;
   }
 
   static async lastSleepSchedule() {
     const sleepSchedules = await SleepScheduleService.getCompleted();
+
+    if (sleepSchedules.length === 0) {
+      return {
+        sleepTime: dayjsToDateTime(timeToDayjs('00:00:00')),
+      } as SleepSchedule;
+    }
 
     const mostRecent = sleepSchedules.reduce((recent, curr) => {
       if (
@@ -103,6 +111,10 @@ export default class ReportingService {
   static async lastSleepDuration() {
     const lastSleepSchedule = await this.lastSleepSchedule();
 
+    if (!lastSleepSchedule.completed) {
+      return `0 hrs`;
+    }
+
     const sleepTime = dateTimeToDayjs(lastSleepSchedule.sleepTime);
     const wakeTime = dateTimeToDayjs(lastSleepSchedule.optimalWakeTime);
 
@@ -116,6 +128,10 @@ export default class ReportingService {
   static async lastAlarmStops() {
     const lastSleepSchedule = await this.lastSleepSchedule();
 
+    if (!lastSleepSchedule.completed) {
+      return 0;
+    }
+
     const alarmStops = await db.alarmStop.findMany({
       where: {
         sleepScheduleId: lastSleepSchedule.id,
@@ -128,6 +144,10 @@ export default class ReportingService {
   static async recommendedSleepTime() {
     const wakeTimes = await WakeTimeService.getAll();
     const alarms = getSortedAlarms(wakeTimes);
+
+    if (alarms.length === 0) {
+      return '21:30:00';
+    }
 
     const baseTime = normaliseDate(timeToDayjs('00:00:00'));
 
@@ -162,7 +182,7 @@ export default class ReportingService {
           const averageDuration = await this.averageSleepDuration();
           const duration = +averageDuration.split(' ')[0];
 
-          return duration < 7.5;
+          return duration < 7.5 && duration !== 0;
         },
       },
       {
@@ -171,7 +191,7 @@ export default class ReportingService {
         condition: async () => {
           const averageStops = await this.averageAlarmStops();
 
-          return averageStops > 2;
+          return averageStops > 2 && averageStops !== 0;
         },
       },
     ];
