@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: iotalarmdb
+    image: postgres:14.2-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=iotalarm
+    ports:
+      - '2347:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+
+volumes:
+  db:
+    driver: local
