@@ -38,7 +38,7 @@ export const weekDayNumbers = {
 export default class AlarmService {
   static async setAlarm(alarmSetDto: AlarmSetDTO): Promise<SleepSchedule> {
     const alarmSetTime = dateTimeToDayjs(alarmSetDto.timeTriggered);
-    const sleepTime = alarmSetTime.add(10, 'minutes');
+    const sleepTime = alarmSetTime.add(0, 'minutes');
 
     const wakeTimes = await WakeTimeService.getAll();
 

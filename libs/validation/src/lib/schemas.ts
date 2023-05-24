@@ -42,7 +42,7 @@ export const sleepScheduleDataSchema = z
         dateTimeToDayjs(schema.optimalWakeTime)
       ) &&
       dateTimeToDayjs(schema.optimalWakeTime).isBefore(
-        dateTimeToDayjs(schema.wakeTime)
+        dateTimeToDayjs(schema.wakeTime).add(1, 'minute')
       )
     );
   });

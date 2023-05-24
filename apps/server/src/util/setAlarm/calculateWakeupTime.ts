@@ -1,6 +1,6 @@
 import { Dayjs } from 'dayjs';
 
-const SLEEP_CYCLE_LENGTH = 90;
+const SLEEP_CYCLE_LENGTH = 1;
 
 export const calculateWakeupTime = (sleepTime: Dayjs, wakeTime: Dayjs) => {
   const difference = Math.abs(sleepTime.diff(wakeTime, 'minutes'));
